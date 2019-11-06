@@ -45,7 +45,7 @@ public class KiteMovement : MonoBehaviour
     public void Move()
     {
         // The velocity vector is used to combine the kiteships various influence vectors into its final movement vector.
-        Vector2 velocity = transform.position;
+        Vector3 velocity = transform.position;
 
         // Check to see if there's no input, if there isn't then coast to 0, otherwise move.
         if ((leftStickVector.x + rightStickVector.x + leftStickVector.y + rightStickVector.y) == 0)
@@ -65,9 +65,17 @@ public class KiteMovement : MonoBehaviour
             lastStickVector = leftStickVector + rightStickVector;
         }
 
-        // Do some rotation
-        float stickOffset = leftStickVector.y - rightStickVector.y;
-        transform.Rotate(0, 0, -stickOffset, Space.Self);
+        // Create a rotation vector based off stick position difference and rotate based off it.
+        float stickOffset = (leftStickVector.y - rightStickVector.y) * 2;
+        Vector3 rotationVector = new Vector3(0, 0, -stickOffset);
+        transform.Rotate(rotationVector, Space.World);
+
+        // Now we need to apply 'upwards' velocity to the kiteship, with increasing velocity the more upside down it is.
+        float angle = transform.eulerAngles.z;
+        //velocity += new Vector3(0, angle, 0);
+        print(transform.eulerAngles.z);
+        //new Vector3(0, rotationVector.z, 0) transform.rotation.z
+        // Quaternion.Euler(rotationVector) * Vector3.up * Time.deltaTime;
 
         // Clamp the kiteship from going too far away from the orign.
         if (velocity.magnitude >= 20)
