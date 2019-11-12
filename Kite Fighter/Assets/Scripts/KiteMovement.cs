@@ -9,8 +9,9 @@ public class KiteMovement : MonoBehaviour
     [Header("Set in the Inspector!")]
     public float speed;
 
-    // This varable is used to calucate kiteship not instantly stopping when there's no direction on the sticks.
+    // These varables are used to calucate kiteship not instantly stopping when there's no direction on the sticks / facing a new direction.
     private float coasttime;
+    private Vector3 forwardBoostVector;
 
     // These store the input vectors from the Gamepad thumbsticks.
     [Header("These are the thumbstick vectors")]
@@ -58,27 +59,41 @@ public class KiteMovement : MonoBehaviour
 
         float angle = transform.eulerAngles.z;
 
-        // Here we seperate the behavior into 3 states, based on the z angle
+        // Here we seperate the angle into a 3 section pie based on the z angle.
+        // This is done so we can use two sigmoids to get the behavoir we want and to calculate the nessasary forward velocity to add.
         if (angle <= 10 || angle >= 350)
         {
-            // Probably gonna have to add stuff here to make it feel right, but for now don't add vectoring
-
+            // slowly syphon off speed from the forward boost to slow kiteship when its upwards facing.
+            forwardBoostVector *= .99f;
         }
         else if (angle > 10 && angle <= 180)
         {
-
-            // squishify the angle to a reasonable value to be used as a scalar 
-            angle = Sigmoid90(angle);
-            velocity += (angle * transform.up) * speed * Time.deltaTime;
-
+            forwardBoostVector *= .99f;
+            Vector3 boostotesto = new Vector3();
+            boostotesto = ((Sigmoid90(angle) * transform.up) * speed * Time.deltaTime);     // Check if the angle speed we would add is greater than what we already have.
+            if (forwardBoostVector.magnitude < boostotesto.magnitude)
+            {
+                // squishify the angle to a reasonable value to be used as a scalar
+                angle = Sigmoid90(angle);
+                forwardBoostVector = (angle * transform.up) * speed * Time.deltaTime;
+            }
+            forwardBoostVector = transform.up * forwardBoostVector.magnitude;               // If it's not, then just adjust the vector to align.
         }
-        else if (angle > 180 && angle < 350)
+        else if (angle > 180 && angle < 350)                                                // Same stuff, but facing the other way.
         {
-
-            // squishify the angle to a reasonable value to be used as a scalar 
-            angle = Sigmoid270(angle);
-            velocity += (angle * transform.up) * speed * Time.deltaTime;
+            forwardBoostVector *= .99f;
+            Vector3 boostotesto = new Vector3();
+            boostotesto = ((Sigmoid270(angle) * transform.up) * speed * Time.deltaTime);
+            if (forwardBoostVector.magnitude < boostotesto.magnitude)
+            {
+                // squishify the angle to a reasonable value to be used as a scalar
+                angle = Sigmoid270(angle);
+                forwardBoostVector = (angle * transform.up) * speed * Time.deltaTime;
+            }
+            forwardBoostVector = transform.up * forwardBoostVector.magnitude;
         }
+
+        velocity += forwardBoostVector;
 
         // Now we add some direct stick input to give the kiteship some more control.
         // Check to see if there's no input, if there isn't then coast to 0, otherwise move.
@@ -109,16 +124,16 @@ public class KiteMovement : MonoBehaviour
         transform.position = velocity;
     }
 
-    // These functions are far from perfect, but they squashes the euler rotation we get between 0 and 3, precious. Sigmoidin' cetner at a values of 90 / 180.
+    // These functions are far from perfect, but they squashes the euler rotation we get between 0 and 3, aye. Sigmoidin' cetner at a values of 90 / 180.
     // See the wikipedia on logistic function / sigmoid function for getting what the variables here do.
     public static float Sigmoid90(float value)
     {
-        float k = -.1f * (value - 90); 
+        float k = -.05f * (value - 90); 
         return 5 / (1 + Mathf.Exp(k));
     }
     public static float Sigmoid270(float value)
     {
-        float k = -.1f * -(value - 270);
+        float k = -.05f * -(value - 270);
         return 5 / (1 + Mathf.Exp(k));
     }
 }
