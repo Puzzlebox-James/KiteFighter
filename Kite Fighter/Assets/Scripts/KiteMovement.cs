@@ -12,6 +12,7 @@ public class KiteMovement : MonoBehaviour
     // These varables are used to calucate kiteship not instantly stopping when there's no direction on the sticks / facing a new direction.
     private float coasttime;
     private Vector3 forwardBoostVector;
+    private Vector3 driftVector;
 
     // These store the input vectors from the Gamepad thumbsticks.
     [Header("These are the thumbstick vectors")]
@@ -30,9 +31,9 @@ public class KiteMovement : MonoBehaviour
     {
         leftStickVector = lsv.Get<Vector2>();
     }
-    public void OnRightAnchor(InputValue lsv)
+    public void OnRightAnchor(InputValue rsv)
     {
-        rightStickVector = lsv.Get<Vector2>();
+        rightStickVector = rsv.Get<Vector2>();
     }
 
 
@@ -64,7 +65,16 @@ public class KiteMovement : MonoBehaviour
         if (angle <= 10 || angle >= 350)
         {
             // slowly syphon off speed from the forward boost to slow kiteship when its upwards facing.
-            forwardBoostVector *= .99f;
+            // Get current stick vector and magnatute. halve the forward boost mag and apply it to stick vector mag when sticks have non-zero vector. When they do, reverse.
+           // if ((leftStickVector.x + rightStickVector.x + leftStickVector.y + rightStickVector.y) == 0)
+            //{
+             //   driftVector /= 1.1f;
+              //  forwardBoostVector *= forwardBoostVector.magnitude + driftVector.magnitude;
+            //} else {
+              //  forwardBoostVector /= 1.1f;
+                //driftVector = (leftStickVector + rightStickVector);
+                //driftVector *= forwardBoostVector.magnitude + driftVector.magnitude;
+            //}
         }
         else if (angle > 10 && angle <= 180)
         {
@@ -95,6 +105,7 @@ public class KiteMovement : MonoBehaviour
 
         velocity += forwardBoostVector;
 
+
         // Now we add some direct stick input to give the kiteship some more control.
         // Check to see if there's no input, if there isn't then coast to 0, otherwise move.
         if ((leftStickVector.x + rightStickVector.x + leftStickVector.y + rightStickVector.y) == 0)
@@ -114,11 +125,16 @@ public class KiteMovement : MonoBehaviour
             lastStickVector = leftStickVector + rightStickVector;
         }
 
+        float xAxis = Mathf.Abs(transform.position.x);
+        float yAxis = Mathf.Abs(transform.position.y);
+        Vector3 influenceVector = new Vector3();
+        influenceVector.z = (xAxis + yAxis);
+        velocity.z = -influenceVector.z / 4;
 
         // Clamp the kiteship from going too far away from the orign.
         if (velocity.magnitude >= 20)
         {
-            velocity = Vector2.ClampMagnitude(velocity, 20f);
+            velocity = Vector3.ClampMagnitude(velocity, 30f);
         }
 
         transform.position = velocity;
