@@ -44,6 +44,7 @@ public class KiteMovement : MonoBehaviour
     }
 
 
+    // This could technically use a refactor to use Quaternion.AngleAxis and direction vectors to deal with rotations better.
     public void Move()
     {
         // The velocity vector is used to combine the kiteships various influence vectors into its final movement vector.
@@ -64,17 +65,7 @@ public class KiteMovement : MonoBehaviour
         // This is done so we can use two sigmoids to get the behavoir we want and to calculate the nessasary forward velocity to add.
         if (angle <= 10 || angle >= 350)
         {
-            // slowly syphon off speed from the forward boost to slow kiteship when its upwards facing.
-            // Get current stick vector and magnatute. halve the forward boost mag and apply it to stick vector mag when sticks have non-zero vector. When they do, reverse.
-           // if ((leftStickVector.x + rightStickVector.x + leftStickVector.y + rightStickVector.y) == 0)
-            //{
-             //   driftVector /= 1.1f;
-              //  forwardBoostVector *= forwardBoostVector.magnitude + driftVector.magnitude;
-            //} else {
-              //  forwardBoostVector /= 1.1f;
-                //driftVector = (leftStickVector + rightStickVector);
-                //driftVector *= forwardBoostVector.magnitude + driftVector.magnitude;
-            //}
+            // Do some stuff in the future probably, for now nothing.
         }
         else if (angle > 10 && angle <= 180)
         {
@@ -125,11 +116,21 @@ public class KiteMovement : MonoBehaviour
             lastStickVector = leftStickVector + rightStickVector;
         }
 
+
+        // Here we set the depth of the kiteship based on it's x and y position.
         float xAxis = Mathf.Abs(transform.position.x);
         float yAxis = Mathf.Abs(transform.position.y);
         Vector3 influenceVector = new Vector3();
         influenceVector.z = (xAxis + yAxis);
         velocity.z = -influenceVector.z / 4;
+
+        // This sets the rotation about the Y axis based on the ships x pos.
+        var x = transform.eulerAngles.x;
+        var z = transform.eulerAngles.z;
+        Vector3 headerRotation = new Vector3(x, xAxis, z);
+
+        transform.rotation = Quaternion.Euler(headerRotation);
+
 
         // Clamp the kiteship from going too far away from the orign.
         if (velocity.magnitude >= 20)
