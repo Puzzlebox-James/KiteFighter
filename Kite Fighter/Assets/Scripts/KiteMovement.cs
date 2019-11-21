@@ -53,7 +53,7 @@ public class KiteMovement : MonoBehaviour
         // Create a rotation vector based off stick position difference and rotate based off it.
         float stickOffset = (leftStickVector.y - rightStickVector.y) * 2;
         Vector3 rotationVector = new Vector3(0, 0, -stickOffset);
-        transform.Rotate(rotationVector, Space.World);
+        transform.Rotate(rotationVector, Space.Self);
 
         // We need to apply 'upwards' velocity to the kiteship, with increasing velocity the more upside down it is.
         // We do this by getting the rotation about the z axis, squashing it into a float between 0 - 3, sigmoid style
@@ -118,18 +118,15 @@ public class KiteMovement : MonoBehaviour
 
 
         // Here we set the depth of the kiteship based on it's x and y position.
-        float xAxis = Mathf.Abs(transform.position.x);
-        float yAxis = Mathf.Abs(transform.position.y);
-        Vector3 influenceVector = new Vector3();
-        influenceVector.z = (xAxis + yAxis);
-        velocity.z = -influenceVector.z / 4;
+        float xAxis = transform.position.x;
+        float yAxis = transform.position.y;
+        float influenceVectorZ = (Mathf.Abs(xAxis) + Mathf.Abs(yAxis));
+        velocity.z = -Mathf.Pow(influenceVectorZ, 0.6f);
 
         // This sets the rotation about the Y axis based on the ships x pos.
         var x = transform.eulerAngles.x;
         var z = transform.eulerAngles.z;
-        Vector3 headerRotation = new Vector3(x, xAxis, z);
-
-        transform.rotation = Quaternion.Euler(headerRotation);
+        transform.rotation = Quaternion.Euler(x, xAxis, z);
 
 
         // Clamp the kiteship from going too far away from the orign.
