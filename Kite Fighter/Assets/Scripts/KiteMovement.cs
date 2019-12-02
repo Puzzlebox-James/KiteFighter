@@ -126,7 +126,7 @@ public class KiteMovement : MonoBehaviour
         // This sets the rotation about the Y axis based on the ships x pos.
         var x = transform.eulerAngles.x;
         var z = transform.eulerAngles.z;
-        transform.rotation = Quaternion.Euler(x, xAxis, z);
+        transform.rotation = Quaternion.Euler(x, xAxis * 2, z);
 
 
         // Clamp the kiteship from going too far away from the orign.

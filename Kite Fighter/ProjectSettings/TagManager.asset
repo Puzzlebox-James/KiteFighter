@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - KiteShip
+  - Hurtbox
+  - Hitbox
   layers:
   - Default
   - TransparentFX
@@ -14,9 +16,9 @@ TagManager:
   - UI
   - 
   - 
-  - KiteLayer
-  - 
-  - 
+  - Pushbox
+  - Hurtbox
+  - Hitbox
   - 
   - 
   - 

@@ -19,8 +19,8 @@ public class CameraFollow : MonoBehaviour
 
 
     public float yOffset = 2.0f;
-    public float minFov = 90;
-    public float maxFov = 130;
+    public float minDistance = 20;
+    public float maxDistance = 30;
     public float cameraSpeed = .5f;
     public Transform targetTransform;
 
@@ -54,15 +54,15 @@ public class CameraFollow : MonoBehaviour
 
         float xMiddle = (xMin + xMax) / 2;
         float yMiddle = (yMin + yMax) / 2;
-        float distance = xMax*2.5f - xMin*2.5f;
+        float distance = (xMax - xMin) / 1.7f;
 
-        if (distance < minFov)
-            distance = minFov;
+        if (distance < minDistance)
+            distance = minDistance;
 
-        if (distance > maxFov)
-            distance = maxFov;
+        if (distance > maxDistance)
+            distance = maxDistance;
 
-        Camera.main.fieldOfView = distance;
+        transform.position = new Vector3(0, yOffset, -distance);
 
         targetTransform.transform.position = new Vector3(xMiddle, yMiddle, 0);
         Quaternion lookOnLook = Quaternion.LookRotation(targetTransform.transform.position - transform.position);
