@@ -20,6 +20,9 @@ public class KiteMovement : MonoBehaviour
     public Vector2 rightStickVector;
     private Vector2 lastStickVector;
 
+    [Header("NO TOUCHY")]
+    public static bool canMove = true;
+
 
     void Awake()
     {
@@ -40,6 +43,7 @@ public class KiteMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(canMove == true)
         Move();
     }
 
@@ -66,6 +70,7 @@ public class KiteMovement : MonoBehaviour
         if (angle <= 10 || angle >= 350)
         {
             // Do some stuff in the future probably, for now nothing.
+            forwardBoostVector *= .99f;
         }
         else if (angle > 10 && angle <= 180)
         {
