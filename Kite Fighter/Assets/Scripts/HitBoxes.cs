@@ -27,11 +27,13 @@ public class HitBoxes : MonoBehaviour
             // 
             startTime = Time.time;
             startMarker = transform.position;
-            endMarker.x = (transform.position.x - other.gameObject.transform.root.position.x) * knockbackDistance;
-            endMarker.y = (transform.position.y - other.gameObject.transform.root.position.y) * knockbackDistance;
+            endMarker.x = (transform.root.position.x - other.gameObject.transform.root.position.x) * knockbackDistance;
+            endMarker.y = (transform.root.position.y - other.gameObject.transform.root.position.y) * knockbackDistance;
+            float influenceVectorZ = (Mathf.Abs(endMarker.x) + Mathf.Abs(endMarker.y));
+            endMarker.z = -Mathf.Pow(influenceVectorZ, 0.6f);
             journeyLength = Vector3.Distance(startMarker, endMarker);
-            KiteMovement.canMove = false;
-            knockBackEnable = true;
+
+            Knockback();
 
             //call the knockback function with the movement arrestment and do the lerps to move the kites away from each other.
             
@@ -48,9 +50,16 @@ public class HitBoxes : MonoBehaviour
 
     private void Knockback()
     {
+        KiteMovement.canMove = false;
+        knockBackEnable = true;
+
         float distCovered = (Time.time - startTime) * knockbackSpeed;
-        float fractionOfJourney = distCovered / journeyLength;
+        float fractionOfJourney = (distCovered / journeyLength);
+        if (fractionOfJourney >= 1)
+            knockBackEnable = false;
+        fractionOfJourney = Mathf.Sin(fractionOfJourney * Mathf.PI * 0.5f);
         transform.position = Vector3.Lerp(startMarker, endMarker, fractionOfJourney);
+
 
         if (fractionOfJourney >= 1)
             knockBackEnable = false;
