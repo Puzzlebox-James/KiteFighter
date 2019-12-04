@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class KiteMovement : MonoBehaviour
@@ -14,20 +12,26 @@ public class KiteMovement : MonoBehaviour
     private Vector3 forwardBoostVector;
     private Vector3 driftVector;
 
+    // Variables to store knockback information
+    [Header("Knockback Parameters")]
+    public float knockbackSpeed = 50;
+    public float knockbackDistance = 4;
+
     // These store the input vectors from the Gamepad thumbsticks.
     [Header("These are the thumbstick vectors")]
     public Vector2 leftStickVector;
     public Vector2 rightStickVector;
     private Vector2 lastStickVector;
 
-    [Header("NO TOUCHY")]
-    public static bool canMove = true;
+    // This is the main movement vector for the kiteship.
+    private Vector3 velocity;
 
 
-    void Awake()
-    {
 
-    }
+
+    //=======================================================================================================================//
+    //======================================================== INPUT ========================================================//
+    //=======================================================================================================================//
 
     // These methods are assigned from the Input System - they are 'actions' that get paseed through the Player Input script on the game object. 
     public void OnLeftAnchor(InputValue lsv)
@@ -43,16 +47,23 @@ public class KiteMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(canMove == true)
         Move();
+        SphereConstrain();
     }
 
+
+
+
+
+    //==========================================================================================================================//
+    //======================================================== MOVEMENT ========================================================//
+    //==========================================================================================================================//
 
     // This could technically use a refactor to use Quaternion.AngleAxis and direction vectors to deal with rotations better.
     public void Move()
     {
         // The velocity vector is used to combine the kiteships various influence vectors into its final movement vector.
-        Vector3 velocity = transform.position;
+        velocity = transform.position;
 
         // Create a rotation vector based off stick position difference and rotate based off it.
         float stickOffset = (leftStickVector.y - rightStickVector.y) * 2;
@@ -101,7 +112,6 @@ public class KiteMovement : MonoBehaviour
 
         velocity += forwardBoostVector;
 
-
         // Now we add some direct stick input to give the kiteship some more control.
         // Check to see if there's no input, if there isn't then coast to 0, otherwise move.
         if ((leftStickVector.x + rightStickVector.x + leftStickVector.y + rightStickVector.y) == 0)
@@ -121,7 +131,12 @@ public class KiteMovement : MonoBehaviour
             lastStickVector = leftStickVector + rightStickVector;
         }
 
+        transform.position = velocity;
+    }
 
+
+    public void SphereConstrain()
+    {
         // Here we set the depth of the kiteship based on it's x and y position.
         float xAxis = transform.position.x;
         float yAxis = transform.position.y;
@@ -133,7 +148,6 @@ public class KiteMovement : MonoBehaviour
         var z = transform.eulerAngles.z;
         transform.rotation = Quaternion.Euler(x, xAxis * 2, z);
 
-
         // Clamp the kiteship from going too far away from the orign.
         if (velocity.magnitude >= 20)
         {
@@ -142,6 +156,31 @@ public class KiteMovement : MonoBehaviour
 
         transform.position = velocity;
     }
+
+
+
+
+    //===========================================================================================================================//
+    //======================================================== COLLISION ========================================================//
+    //===========================================================================================================================//
+
+    public void CollisionDetected(HitDetectionPasser hit)
+    {
+        Debug.Log(hit.name);
+        Debug.Log("Work PLZ");
+        //float startTime;
+        //Vector3 startMarker;
+        //Vector3 endMarker;
+        //float journeyLength;
+    }
+
+
+
+
+
+    //=========================================================================================================================//
+    //======================================================== UTILITY ========================================================//
+    //=========================================================================================================================//
 
     // These functions are far from perfect, but they squashes the euler rotation we get between 0 and 3, aye. Sigmoidin' cetner at a values of 90 / 180.
     // See the wikipedia on logistic function / sigmoid function for getting what the variables here do.

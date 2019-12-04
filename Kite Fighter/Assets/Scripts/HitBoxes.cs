@@ -50,7 +50,7 @@ public class HitBoxes : MonoBehaviour
 
     private void Knockback()
     {
-        KiteMovement.canMove = false;
+        //KiteMovement.canMove = false;
         knockBackEnable = true;
 
         float distCovered = (Time.time - startTime) * knockbackSpeed;
@@ -71,7 +71,7 @@ public class HitBoxes : MonoBehaviour
         {
             Knockback();
         } else {
-            KiteMovement.canMove = true;
+            //KiteMovement.canMove = true;
         }
         
     }
