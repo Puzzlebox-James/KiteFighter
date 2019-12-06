@@ -428,6 +428,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36b0b36d5c717784c85246cadd3590d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyVelocity: {x: 0, y: 0, z: 0}
+  enemyPosition: {fileID: 0}
+  enemyRigidbody: {fileID: 0}
 --- !u!54 &250168399
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -647,6 +650,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36b0b36d5c717784c85246cadd3590d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyVelocity: {x: 0, y: 0, z: 0}
+  enemyPosition: {fileID: 0}
+  enemyRigidbody: {fileID: 0}
 --- !u!54 &386280004
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1552,6 +1558,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36b0b36d5c717784c85246cadd3590d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyVelocity: {x: 0, y: 0, z: 0}
+  enemyPosition: {fileID: 0}
+  enemyRigidbody: {fileID: 0}
 --- !u!54 &1134688530
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1740,8 +1749,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 4
-  knockbackSpeed: 50
-  knockbackDistance: 4
+  forwardBoostVector: {x: 0, y: 0, z: 0}
+  knockbackSpeed: 15
+  knockbackMultiplier: 1
   leftStickVector: {x: 0, y: 0}
   rightStickVector: {x: 0, y: 0}
 --- !u!4 &1238943781
@@ -2011,6 +2021,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36b0b36d5c717784c85246cadd3590d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyVelocity: {x: 0, y: 0, z: 0}
+  enemyPosition: {fileID: 0}
+  enemyRigidbody: {fileID: 0}
 --- !u!54 &1386898299
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2429,8 +2442,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 4
-  knockbackSpeed: 50
-  knockbackDistance: 4
+  forwardBoostVector: {x: 0, y: 0, z: 0}
+  knockbackSpeed: 15
+  knockbackMultiplier: 1
   leftStickVector: {x: 0, y: 0}
   rightStickVector: {x: 0, y: 0}
 --- !u!4 &1903200963

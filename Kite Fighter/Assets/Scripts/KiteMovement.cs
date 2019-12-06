@@ -9,13 +9,18 @@ public class KiteMovement : MonoBehaviour
 
     // These varables are used to calucate kiteship not instantly stopping when there's no direction on the sticks / facing a new direction.
     private float coasttime;
-    private Vector3 forwardBoostVector;
+    public Vector3 forwardBoostVector;
     private Vector3 driftVector;
 
     // Variables to store knockback information
     [Header("Knockback Parameters")]
     public float knockbackSpeed = 50;
-    public float knockbackDistance = 4;
+    public float knockbackMultiplier = 4;
+
+    private Vector3 knockedStartPos;
+    private Vector3 knockedEndPos;
+    private float knockedStartTime;
+    private float knockedLength;
 
     // These store the input vectors from the Gamepad thumbsticks.
     [Header("These are the thumbstick vectors")]
@@ -26,7 +31,23 @@ public class KiteMovement : MonoBehaviour
     // This is the main movement vector for the kiteship.
     private Vector3 velocity;
 
+    private bool canMove = true;
+    private bool knocked = false;
 
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (canMove == true)
+        {
+            Move();
+        }
+        if(knocked == true)
+        {
+            KnockBack();
+        }
+        SphereConstrain();
+    }
 
 
     //=======================================================================================================================//
@@ -44,17 +65,9 @@ public class KiteMovement : MonoBehaviour
     }
 
 
-    // Update is called once per frame
-    void Update()
-    {
-        Move();
-        SphereConstrain();
-    }
 
 
-
-
-
+    
     //==========================================================================================================================//
     //======================================================== MOVEMENT ========================================================//
     //==========================================================================================================================//
@@ -131,7 +144,7 @@ public class KiteMovement : MonoBehaviour
             lastStickVector = leftStickVector + rightStickVector;
         }
 
-        transform.position = velocity;
+        //transform.position = velocity;
     }
 
 
@@ -160,18 +173,76 @@ public class KiteMovement : MonoBehaviour
 
 
 
+
     //===========================================================================================================================//
     //======================================================== COLLISION ========================================================//
     //===========================================================================================================================//
 
     public void CollisionDetected(HitDetectionPasser hit)
     {
+        // First check which of our hit and hurt boxes got hit, then check the enemy.
+        if(hit.CompareTag("Hitbox"))
+        {
+            if (hit.enemyRigidbody.tag == "Hitbox")
+            {
+                knocked = true;
+
+                // Find and set the knockback start time, start position, end position, and length
+                knockedStartTime = Time.time;
+                knockedStartPos = transform.root.position;
+                knockedEndPos = (knockedStartPos + (knockedStartPos - hit.enemyPosition.position) + hit.enemyVelocity) * knockbackMultiplier;
+                knockedLength = Vector3.Distance(knockedStartPos, knockedEndPos);
+            }
+            else if(hit.enemyRigidbody.tag == "Hurtbox")
+            {
+                // successfuly hit them where it hurts.
+                // maybe add some lesser knockback here.
+            }
+
+        }
+        else if(hit.CompareTag("Hurtbox"))
+        {
+            if(hit.enemyRigidbody.tag == "Hitbox")
+            {
+                // We got got, take damage and a large knockback.
+                knocked = true;
+                canMove = false;
+
+                // Find and set the knockback start time, start position, end position, and length
+                knockedStartTime = Time.time;
+                knockedStartPos = transform.root.position;
+                knockedEndPos = (knockedStartPos + (knockedStartPos - hit.enemyPosition.position) + hit.enemyVelocity) * knockbackMultiplier;
+                knockedLength = Vector3.Distance(knockedStartPos, knockedEndPos);
+            }
+            else if(hit.enemyRigidbody.tag == "Hurtbox")
+            {
+                // somehow we made our hurtboxes collide.
+                // Don't worry about this atm.
+            }
+
+
+        }
         Debug.Log(hit.name);
         Debug.Log("Work PLZ");
-        //float startTime;
-        //Vector3 startMarker;
-        //Vector3 endMarker;
-        //float journeyLength;
+    }
+
+
+    public void KnockBack()
+    {
+        float distCovered = (Time.time - knockedStartTime) * knockbackSpeed;
+        float fractionOfJourney = (distCovered / knockedLength);
+        if (fractionOfJourney >= 1)
+        {
+            knocked = false;
+            canMove = true;
+        }
+        fractionOfJourney = Mathf.Sin(fractionOfJourney * Mathf.PI * 0.5f);
+        velocity = Vector3.Lerp(knockedStartPos, knockedEndPos, fractionOfJourney);
+
+        //Vector3 lookAtRotation = Quaternion.LookRotation(hit.enemyPosition.position - transform.position, Vector3.forward).eulerAngles;
+        //transform.rotation = Quaternion.Euler(Vector3.Scale(lookAtRotation, new Vector3(0, 0, 1)));
+
+        //transform.position = velocity;
     }
 
 
