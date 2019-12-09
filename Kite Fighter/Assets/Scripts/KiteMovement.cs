@@ -241,8 +241,6 @@ public class KiteMovement : MonoBehaviour
 
         //Vector3 lookAtRotation = Quaternion.LookRotation(hit.enemyPosition.position - transform.position, Vector3.forward).eulerAngles;
         //transform.rotation = Quaternion.Euler(Vector3.Scale(lookAtRotation, new Vector3(0, 0, 1)));
-
-        //transform.position = velocity;
     }
 
 
