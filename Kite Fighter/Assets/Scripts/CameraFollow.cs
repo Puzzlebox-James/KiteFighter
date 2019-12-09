@@ -54,15 +54,22 @@ public class CameraFollow : MonoBehaviour
 
         float xMiddle = (xMin + xMax) / 2;
         float yMiddle = (yMin + yMax) / 2;
-        float distance = (xMax - xMin) / 1.7f;
+        float distanceX = (xMax - xMin) / 1.7f;
+        float distanceY = (yMax - yMin) / 1.7f;
 
-        if (distance < minDistance)
-            distance = minDistance;
+        if (distanceX < minDistance)
+            distanceX = minDistance;
 
-        if (distance > maxDistance)
-            distance = maxDistance;
+        if (distanceX > maxDistance)
+            distanceX = maxDistance;
 
-        transform.position = new Vector3(0, yOffset, -distance);
+        if (distanceY < minDistance)
+            distanceY = minDistance;
+
+        if (distanceY > maxDistance)
+            distanceY = maxDistance;
+
+        transform.position = new Vector3(0, yOffset, -Mathf.Max(distanceX, distanceY));
 
         targetTransform.transform.position = new Vector3(xMiddle, yMiddle, 0);
         Quaternion lookOnLook = Quaternion.LookRotation(targetTransform.transform.position - transform.position);
