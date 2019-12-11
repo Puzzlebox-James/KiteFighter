@@ -204,7 +204,9 @@ public class KiteMovement : MonoBehaviour
         {
             if(hit.enemyRigidbody.tag == "Hitbox")
             {
-                // We got got, take damage and a large knockback.
+                // Sends a message for us to take damage with the enemey forward boost var as added dmg.
+                GetComponent<HealthBars>().TakeDamage(hit.enemyVelocity.magnitude);
+
                 knocked = true;
                 canMove = false;
 

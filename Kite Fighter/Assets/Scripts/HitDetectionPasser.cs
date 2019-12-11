@@ -17,7 +17,7 @@ public class HitDetectionPasser : MonoBehaviour
             enemyRigidbody = other.attachedRigidbody;
 
             // Pass this class to the KiteMovement script so I can use its datazzz
-            transform.parent.root.GetComponent<KiteMovement>().CollisionDetected(this);
+            transform.root.GetComponent<KiteMovement>().CollisionDetected(this);
         }
         else       // Add a check here for 'ground' or whatever
         {
