@@ -19,11 +19,16 @@ public class HitDetectionPasser : MonoBehaviour
             // Pass this class to the KiteMovement script so I can use its datazzz
             transform.root.GetComponent<KiteMovement>().CollisionDetected(this);
         }
-        else       // Add a check here for 'ground' or whatever
+        else if (other.transform.root.tag == "Ground")
         {
-            Debug.Log("KiteShip hit something without a proper tag");
+            enemyVelocity = new Vector3(0, 0, 0);
+            enemyPosition = gameObject.transform.root;
+            enemyRigidbody = other.attachedRigidbody;
+            transform.root.GetComponent<KiteMovement>().CollisionDetected(this);
         }
+        else
 
-        
+            Debug.Log("KiteShip hit something without a proper tag");
+
     }
 }

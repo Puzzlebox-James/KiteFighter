@@ -16,6 +16,7 @@ public class KiteMovement : MonoBehaviour
     [Header("Knockback Parameters")]
     public float knockbackSpeed = 50;
     public float knockbackMultiplier = 4;
+    public float groundDamage = 10;
 
     private Vector3 knockedStartPos;
     private Vector3 knockedEndPos;
@@ -33,6 +34,7 @@ public class KiteMovement : MonoBehaviour
 
     private bool canMove = true;
     private bool knocked = false;
+
 
 
     // Update is called once per frame
@@ -198,6 +200,19 @@ public class KiteMovement : MonoBehaviour
                 // successfuly hit them where it hurts.
                 // maybe add some lesser knockback here.
             }
+            else if (hit.enemyRigidbody.tag == "Ground")
+            {
+                GetComponent<HealthBars>().TakeDamage(groundDamage);
+
+                knocked = true;
+                canMove = false;
+
+                // Find and set the knockback start time, start position, end position, and length
+                knockedStartTime = Time.time;
+                knockedStartPos = transform.root.position;
+                knockedEndPos = (knockedStartPos + Vector3.up * 20) * knockbackMultiplier;
+                knockedLength = Vector3.Distance(knockedStartPos, knockedEndPos);
+            }
 
         }
         else if(hit.CompareTag("Hurtbox"))
@@ -221,9 +236,21 @@ public class KiteMovement : MonoBehaviour
                 // somehow we made our hurtboxes collide.
                 // Don't worry about this atm.
             }
+            else if (hit.enemyRigidbody.tag == "Ground ")
+            {
+                GetComponent<HealthBars>().TakeDamage(groundDamage);
 
+                knocked = true;
+                canMove = false;
 
+                // Find and set the knockback start time, start position, end position, and length
+                knockedStartTime = Time.time;
+                knockedStartPos = transform.root.position;
+                knockedEndPos = (knockedStartPos + Vector3.up * 20) * knockbackMultiplier;
+                knockedLength = Vector3.Distance(knockedStartPos, knockedEndPos);
+            }
         }
+
         Debug.Log(hit.name);
         Debug.Log("Work PLZ");
     }
