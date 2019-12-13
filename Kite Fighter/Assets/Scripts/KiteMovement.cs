@@ -268,10 +268,15 @@ public class KiteMovement : MonoBehaviour
         fractionOfJourney = Mathf.Sin(fractionOfJourney * Mathf.PI * 0.5f);
         velocity = Vector3.Lerp(knockedStartPos, knockedEndPos, fractionOfJourney);
 
-        //Vector3 lookAtRotation = Quaternion.LookRotation(hit.enemyPosition.position - transform.position, Vector3.forward).eulerAngles;
+        //Vector3 lookAtRotation = Quaternion.LookRotation(knockedEndPos, Vector3.forward).eulerAngles;
         //transform.rotation = Quaternion.Euler(Vector3.Scale(lookAtRotation, new Vector3(0, 0, 1)));
     }
 
+
+    public void JigglyAboutFace()
+    {
+
+    }
 
 
 
