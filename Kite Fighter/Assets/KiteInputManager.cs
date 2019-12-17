@@ -393,6 +393,14 @@ public class KiteInputManager : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Back"",
+                    ""type"": ""Button"",
+                    ""id"": ""655d67e2-97a4-4d0c-ba95-73dbf590380f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -527,6 +535,17 @@ public class KiteInputManager : IInputActionCollection, IDisposable
                     ""action"": ""RightAnchor"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""faf8bb9c-efbc-45c3-81b3-f56d715f4051"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Back"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -600,6 +619,7 @@ public class KiteInputManager : IInputActionCollection, IDisposable
         m_KiteInput = asset.FindActionMap("KiteInput", throwIfNotFound: true);
         m_KiteInput_LeftAnchor = m_KiteInput.FindAction("LeftAnchor", throwIfNotFound: true);
         m_KiteInput_RightAnchor = m_KiteInput.FindAction("RightAnchor", throwIfNotFound: true);
+        m_KiteInput_Back = m_KiteInput.FindAction("Back", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -764,12 +784,14 @@ public class KiteInputManager : IInputActionCollection, IDisposable
     private IKiteInputActions m_KiteInputActionsCallbackInterface;
     private readonly InputAction m_KiteInput_LeftAnchor;
     private readonly InputAction m_KiteInput_RightAnchor;
+    private readonly InputAction m_KiteInput_Back;
     public struct KiteInputActions
     {
         private KiteInputManager m_Wrapper;
         public KiteInputActions(KiteInputManager wrapper) { m_Wrapper = wrapper; }
         public InputAction @LeftAnchor => m_Wrapper.m_KiteInput_LeftAnchor;
         public InputAction @RightAnchor => m_Wrapper.m_KiteInput_RightAnchor;
+        public InputAction @Back => m_Wrapper.m_KiteInput_Back;
         public InputActionMap Get() { return m_Wrapper.m_KiteInput; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -785,6 +807,9 @@ public class KiteInputManager : IInputActionCollection, IDisposable
                 RightAnchor.started -= m_Wrapper.m_KiteInputActionsCallbackInterface.OnRightAnchor;
                 RightAnchor.performed -= m_Wrapper.m_KiteInputActionsCallbackInterface.OnRightAnchor;
                 RightAnchor.canceled -= m_Wrapper.m_KiteInputActionsCallbackInterface.OnRightAnchor;
+                Back.started -= m_Wrapper.m_KiteInputActionsCallbackInterface.OnBack;
+                Back.performed -= m_Wrapper.m_KiteInputActionsCallbackInterface.OnBack;
+                Back.canceled -= m_Wrapper.m_KiteInputActionsCallbackInterface.OnBack;
             }
             m_Wrapper.m_KiteInputActionsCallbackInterface = instance;
             if (instance != null)
@@ -795,6 +820,9 @@ public class KiteInputManager : IInputActionCollection, IDisposable
                 RightAnchor.started += instance.OnRightAnchor;
                 RightAnchor.performed += instance.OnRightAnchor;
                 RightAnchor.canceled += instance.OnRightAnchor;
+                Back.started += instance.OnBack;
+                Back.performed += instance.OnBack;
+                Back.canceled += instance.OnBack;
             }
         }
     }
@@ -853,5 +881,6 @@ public class KiteInputManager : IInputActionCollection, IDisposable
     {
         void OnLeftAnchor(InputAction.CallbackContext context);
         void OnRightAnchor(InputAction.CallbackContext context);
+        void OnBack(InputAction.CallbackContext context);
     }
 }

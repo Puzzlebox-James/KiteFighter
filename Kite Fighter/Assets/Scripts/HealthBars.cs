@@ -34,7 +34,7 @@ public class HealthBars : MonoBehaviour
         if(hitpoint < 0)
         {
             hitpoint = 0;
-            Debug.Log("u deadboi");
+            GetComponent<KiteMovement>().EndOfGame();
         }
 
         UpdateHealthBar();

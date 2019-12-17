@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class KiteMovement : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class KiteMovement : MonoBehaviour
     // These varables are used to calucate kiteship not instantly stopping when there's no direction on the sticks / facing a new direction.
     private float coasttime;
     public Vector3 forwardBoostVector;
-    private Vector3 driftVector;
+    private Vector3 driftVector; // not implemented
 
     // Variables to store knockback information
     [Header("Knockback Parameters")]
@@ -31,24 +32,47 @@ public class KiteMovement : MonoBehaviour
 
     // This is the main movement vector for the kiteship.
     private Vector3 velocity;
-
     private bool canMove = true;
     private bool knocked = false;
 
+    // This is for the wind stuff
+    public static bool windOn = true;
+    public GameObject windArrowWithScript;
 
+    // These are for endgame things
+    public GameObject victory;
+    public GameObject lose;
+    public GameObject goBack;
+    private bool isDead = false;
+
+
+    private void Start()
+    {
+        goBack.SetActive(false);
+    }
 
     // Update is called once per frame
     void Update()
     {
-        if (canMove == true)
+        if (isDead == false)
         {
-            Move();
+            if (canMove == true)
+            {
+                Move();
+
+                if (windOn == true)
+                {
+                    Wind();
+                }
+            }
+
+            if (knocked == true)
+            {
+                KnockBack();
+            }
+
+            SphereConstrain();
         }
-        if(knocked == true)
-        {
-            KnockBack();
-        }
-        SphereConstrain();
     }
 
 
@@ -67,7 +91,12 @@ public class KiteMovement : MonoBehaviour
     }
 
 
+    public void OnBack()
+    {
+        if(isDead == true)
+        SceneManager.LoadScene("Title");
 
+    }
 
     
     //==========================================================================================================================//
@@ -173,6 +202,12 @@ public class KiteMovement : MonoBehaviour
     }
 
 
+    public void Wind()
+    {
+        Vector3 windVector = windArrowWithScript.GetComponent<Wind>().windVector;
+        windVector /= 40;
+        velocity += windVector;
+    }
 
 
 
@@ -296,5 +331,34 @@ public class KiteMovement : MonoBehaviour
     {
         float k = -.05f * -(value - 270);
         return 5 / (1 + Mathf.Exp(k));
+    }
+
+
+    public void EndOfGame()
+    {
+        // Stops all children of this kite being rendered.
+        Renderer[] ren;
+        ren = gameObject.GetComponentsInChildren<Renderer>();
+        foreach(Renderer renny in ren)
+        {
+            renny.enabled = false;
+        }
+        
+        // Spawn an explosion thing
+        Instantiate(lose, transform.position, Quaternion.identity);
+
+        goBack.SetActive(true);
+
+        // Spawn a victory thing on the winning player
+        if (gameObject.name == "KiteShipP1")
+        {
+            Instantiate(victory, new Vector3(1, 0.8f, -18), Quaternion.identity);
+        }
+        if (gameObject.name == "KiteShipP2")
+        {
+            Instantiate(victory, new Vector3(-1, 0.8f, -18), Quaternion.identity);
+        }
+
+        isDead = true;
     }
 }
