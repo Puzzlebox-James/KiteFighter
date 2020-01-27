@@ -342,6 +342,26 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 140939326}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &166017333 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7251163138973257107, guid: 14ff2682e3560f04baae558f26f6ea79,
+    type: 3}
+  m_PrefabInstance: {fileID: 7251163138550361774}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &166017334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 166017333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 290af246a190f2d4a9f1987be3fa2d7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LinePrefab: {fileID: 1242232100309729422, guid: b6da653ebb717734c8abe7c1dd6ed4c0,
+    type: 3}
 --- !u!1 &234587533
 GameObject:
   m_ObjectHideFlags: 0
@@ -2689,6 +2709,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2019890112}
   m_CullTransparentMesh: 0
+--- !u!1 &2122023851 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8528569974173717193, guid: 92bdf1febb1a0754b86611f848a1688f,
+    type: 3}
+  m_PrefabInstance: {fileID: 8528569974386020967}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2122023852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122023851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 290af246a190f2d4a9f1987be3fa2d7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LinePrefab: {fileID: 1242232100309729422, guid: b6da653ebb717734c8abe7c1dd6ed4c0,
+    type: 3}
 --- !u!1001 &4818913374737306292
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2756,16 +2796,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4818913374490859633, guid: 30bcb514cd18abb45a3bf1be334af6ab,
-        type: 3}
-      propertyPath: currentHealthBar
-      value: 
-      objectReference: {fileID: 319119906}
-    - target: {fileID: 4818913374490859633, guid: 30bcb514cd18abb45a3bf1be334af6ab,
-        type: 3}
-      propertyPath: ratioText
-      value: 
-      objectReference: {fileID: 1512624872}
     - target: {fileID: 4818913374490859638, guid: 30bcb514cd18abb45a3bf1be334af6ab,
         type: 3}
       propertyPath: victory
@@ -2793,6 +2823,16 @@ PrefabInstance:
       propertyPath: goBack
       value: 
       objectReference: {fileID: 2019890112}
+    - target: {fileID: 4818913374490859633, guid: 30bcb514cd18abb45a3bf1be334af6ab,
+        type: 3}
+      propertyPath: currentHealthBar
+      value: 
+      objectReference: {fileID: 319119906}
+    - target: {fileID: 4818913374490859633, guid: 30bcb514cd18abb45a3bf1be334af6ab,
+        type: 3}
+      propertyPath: ratioText
+      value: 
+      objectReference: {fileID: 1512624872}
     - target: {fileID: 4818913375001782887, guid: 30bcb514cd18abb45a3bf1be334af6ab,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -2867,16 +2907,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7119091725531707408, guid: 9bef2c3079ceedf45aeef66a1ebf6620,
-        type: 3}
-      propertyPath: currentHealthBar
-      value: 
-      objectReference: {fileID: 1191663242}
-    - target: {fileID: 7119091725531707408, guid: 9bef2c3079ceedf45aeef66a1ebf6620,
-        type: 3}
-      propertyPath: ratioText
-      value: 
-      objectReference: {fileID: 727998677}
     - target: {fileID: 7119091725531707413, guid: 9bef2c3079ceedf45aeef66a1ebf6620,
         type: 3}
       propertyPath: victory
@@ -2899,6 +2929,16 @@ PrefabInstance:
       propertyPath: goBack
       value: 
       objectReference: {fileID: 2019890112}
+    - target: {fileID: 7119091725531707408, guid: 9bef2c3079ceedf45aeef66a1ebf6620,
+        type: 3}
+      propertyPath: currentHealthBar
+      value: 
+      objectReference: {fileID: 1191663242}
+    - target: {fileID: 7119091725531707408, guid: 9bef2c3079ceedf45aeef66a1ebf6620,
+        type: 3}
+      propertyPath: ratioText
+      value: 
+      objectReference: {fileID: 727998677}
     - target: {fileID: 7119091725652305332, guid: 9bef2c3079ceedf45aeef66a1ebf6620,
         type: 3}
       propertyPath: m_Materials.Array.data[0]

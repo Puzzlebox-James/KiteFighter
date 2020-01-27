@@ -2,6 +2,15 @@
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
+//=======================================================================================================================//
+//======================================================== TO DO ========================================================//
+//=======================================================================================================================//
+
+// KITES WILL HAVE DEFINED ATTRIBUTES, SPECIFIC TO EACH KITE PREFAB. ENSURE VARIABLE EDITING IS PREFAB SPECIFIC. AND LOGICAL
+// MOVE METHODS THAT ARE NOT ABSOLUTELY necessary TO KITE MOVEMENT TO THEIR OWN CLASS.
+
+
+
 public class KiteMovement : MonoBehaviour
 {
 
@@ -91,6 +100,7 @@ public class KiteMovement : MonoBehaviour
     }
 
 
+    // This is a hack for prototype purposes
     public void OnBack()
     {
         if(isDead == true)
