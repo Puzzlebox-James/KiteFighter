@@ -13,5 +13,4 @@ public class PlayerKiteInstantiate : MonoBehaviour
 
     // Thoughts on how this might go down.
     // The title scene should only have START / EXIT. START should only be availibe once both inputs from players have been found and assigned.
-    // The next screen is KITE SELECTION.
 }
