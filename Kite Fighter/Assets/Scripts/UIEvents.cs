@@ -27,7 +27,7 @@ public class UIEvents : MonoBehaviour
         }
     }
 
-        public void Exit()
+    public void Exit()
     {
         Application.Quit();
     }
