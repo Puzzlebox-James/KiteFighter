@@ -15,5 +15,5 @@ EditorBuildSettings:
     path: Assets/Scenes/TrainingScene.unity
     guid: bd18b8776b345044c8caca7dce895548
   m_configObjects:
-    com.unity.input.settings: {fileID: 11400000, guid: 6243670d9106e174d9fb10c9baeff7b2,
+    com.unity.input.settings: {fileID: 11400000, guid: a736cd9895437f84c85a94c689f1df58,
       type: 2}
