@@ -278,18 +278,14 @@ public class UIEvents : MonoBehaviour
         if (theWay == true)
         {
             if (stageLevelInt >= 2)
-            { return; }
-            else
-            {
+            { return; } else {
                 stageLevelInt++;
             }
         }
         else if (theWay == false)
         {
             if (stageLevelInt <= 0)
-            { return; }
-            else
-            {
+            { return; } else {
                 stageLevelInt--;
             }
         }
