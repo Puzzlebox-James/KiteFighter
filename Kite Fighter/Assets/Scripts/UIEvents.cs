@@ -14,6 +14,8 @@ public class UIEvents : MonoBehaviour
     public GameObject titleCanvas;
     public GameObject modeSelectionCanvas;
     public GameObject p1ModeSelectionCanvas;
+    public GameObject p2ModeSelectionCanvas;
+    public GameObject p1KiteSelectionCanvas;
     private bool cameraMoving = false;
     private int cameraMoveNumber;
     private Vector3 destinationCameraPosition;
@@ -59,6 +61,7 @@ public class UIEvents : MonoBehaviour
         titleCanvas.SetActive(true);
         modeSelectionCanvas.SetActive(false);
         p1ModeSelectionCanvas.SetActive(false);
+        p2ModeSelectionCanvas.SetActive(false);
     }
 
     public void Update()
@@ -117,12 +120,24 @@ public class UIEvents : MonoBehaviour
 
     public void LocalPlayButton()
     {
-        SceneManager.LoadScene("GameScene");
+        cameraMoving = true;
+        cameraMoveNumber = 1;
+        destinationCameraPosition = new Vector3(28, 11.5f, 110);
+
+        titleCanvas.SetActive(false);
+        modeSelectionCanvas.SetActive(true);
+        p1ModeSelectionCanvas.SetActive(true);
+        p2ModeSelectionCanvas.SetActive(true);
+
+
+        // Sets the default selection
+        fightOrTrainButton.Select();
     }
 
     public void NetworkButton()
     {
-
+        // just for testing, ya feel me
+        SceneManager.LoadScene("GameScene");
     }
 
     public void OptionsButton()
@@ -146,6 +161,8 @@ public class UIEvents : MonoBehaviour
 
         titleCanvas.SetActive(true);
         modeSelectionCanvas.SetActive(false);
+        p1ModeSelectionCanvas.SetActive(false);
+        p2ModeSelectionCanvas.SetActive(false);
 
         // Sets the default selection
         soloButton.Select();
