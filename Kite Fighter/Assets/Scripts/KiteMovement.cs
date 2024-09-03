@@ -181,7 +181,7 @@ public class KiteMovement : MonoBehaviour
             velocity.y += (leftStickVector.y + rightStickVector.y) * speed * Time.deltaTime;
 
             // Reset the coasttime and store the stick vectors
-            coasttime = 5f;
+            coasttime = 5f; // this needs to be an inspector value. Could even be an animation curve to make things easier.
             lastStickVector = leftStickVector + rightStickVector;
         }
 
