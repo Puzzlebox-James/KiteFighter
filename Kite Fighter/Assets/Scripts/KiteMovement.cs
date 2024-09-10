@@ -108,10 +108,15 @@ public class KiteMovement : MonoBehaviour
 
     }
 
-    
+
     //==========================================================================================================================//
     //======================================================== MOVEMENT ========================================================//
     //==========================================================================================================================//
+
+    // https://www.seattleairgear.com/kp101.htm Here is some information about how the kite should maneuver.
+
+    // in addition to having the plaver mave the kite, consider adding a 'pull' fuction on one of the triggers to get it to move
+    // more like a real kite. Though don't worry about that too much.   
 
     // This could technically use a refactor to use Quaternion.AngleAxis and direction vectors to deal with rotations better.
     public void Move()
