@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.TextCore.Text;
 
 public class NewProtoKiteMovement : MonoBehaviour
 {
@@ -28,5 +30,41 @@ public class NewProtoKiteMovement : MonoBehaviour
     // First steps, constrain something to that quater sphere, and get the and PFK.
     // Make it so it can move along that constrained area.
 
+
+    [SerializeField] private float speed = 3;
+
+    private Vector2 leftStickVector;
+    private Vector2 rightStickVector;
+
+    private Quaternion Rotation = Quaternion.identity;
+
+    private Vector3 spherePosition;
+
+    // These methods are assigned from the Input System - they are 'actions' that get paseed through the Player Input script on the game object.
+    public void OnLeftAnchor(InputValue lsv)
+    {
+        leftStickVector = lsv.Get<Vector2>();
+    }
+    public void OnRightAnchor(InputValue rsv)
+    {
+        rightStickVector = rsv.Get<Vector2>();
+    }
+
+
+    private void Start()
+    {
+        spherePosition = SphericalCoordinateSystemHelpers.CartesianToSpherical(transform.position);
+    }
+
+    private void Update()
+    {
+        Rotation = Quaternion.Euler(leftStickVector.y * speed * Time.deltaTime, 0, 0);
+
+        //spherePosition = transform.Translate(transform.forward * speed * Time.deltaTime * leftStickVector.y);
+        spherePosition.y += leftStickVector.y * speed * Time.deltaTime;
+
+        this.transform.rotation = Rotation;
+        this.transform.position = SphericalCoordinateSystemHelpers.SphericalToCartesian(spherePosition);
+    }
 
 }
