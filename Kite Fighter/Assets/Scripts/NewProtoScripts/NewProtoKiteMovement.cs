@@ -39,6 +39,7 @@ public class NewProtoKiteMovement : MonoBehaviour
     private Quaternion Rotation = Quaternion.identity;
 
     private Vector3 spherePosition;
+    private Vector3 origin = new Vector3 (0, 0, 0);
 
     // These methods are assigned from the Input System - they are 'actions' that get paseed through the Player Input script on the game object.
     public void OnLeftAnchor(InputValue lsv)
@@ -58,13 +59,15 @@ public class NewProtoKiteMovement : MonoBehaviour
 
     private void Update()
     {
-        Rotation = Quaternion.Euler(leftStickVector.y * speed * Time.deltaTime, 0, 0);
+        // USE A PARENT AND CHILD YOU FOOL XD
 
-        //spherePosition = transform.Translate(transform.forward * speed * Time.deltaTime * leftStickVector.y);
-        spherePosition.y += leftStickVector.y * speed * Time.deltaTime;
+        transform.LookAt(origin);
+        spherePosition.y += leftStickVector.x * speed * Time.deltaTime;
+        spherePosition.z += leftStickVector.y * speed * Time.deltaTime;
 
-        this.transform.rotation = Rotation;
         this.transform.position = SphericalCoordinateSystemHelpers.SphericalToCartesian(spherePosition);
+
+        //transform.Rotate((transform.forward), speed * 20 * Time.deltaTime, Space.Self);
     }
 
 }
