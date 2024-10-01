@@ -32,11 +32,10 @@ public class NewProtoKiteMovement : MonoBehaviour
 
 
     [SerializeField] private float speed = 3;
+    [SerializeField] private float radius = 40f;
 
     private Vector2 leftStickVector;
     private Vector2 rightStickVector;
-
-    private Quaternion Rotation = Quaternion.identity;
 
     private Vector3 spherePosition;
     private Vector3 origin = new Vector3 (0, 0, 0);
@@ -54,10 +53,11 @@ public class NewProtoKiteMovement : MonoBehaviour
 
     private void Start()
     {
+        transform.position = new Vector3(radius, 0, 0);
         spherePosition = SphericalCoordinateSystemHelpers.CartesianToSpherical(transform.position);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         // USE A PARENT AND CHILD YOU FOOL XD
 
@@ -66,8 +66,6 @@ public class NewProtoKiteMovement : MonoBehaviour
         spherePosition.z += leftStickVector.y * speed * Time.deltaTime;
 
         this.transform.position = SphericalCoordinateSystemHelpers.SphericalToCartesian(spherePosition);
-
-        //transform.Rotate((transform.forward), speed * 20 * Time.deltaTime, Space.Self);
     }
 
 }
