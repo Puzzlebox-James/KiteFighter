@@ -65,7 +65,11 @@ public class NewProtoKiteMovement : MonoBehaviour
         spherePosition.y += leftStickVector.x * speed * Time.deltaTime;
         spherePosition.z += leftStickVector.y * speed * Time.deltaTime;
 
-        this.transform.position = SphericalCoordinateSystemHelpers.SphericalToCartesian(spherePosition);
+        //spherePosition += Vector3.forward * Time.deltaTime;
+
+        this.transform.Rotate((Vector3.forward), 200 * Time.deltaTime, Space.Self);
+
+        //this.transform.position = SphericalCoordinateSystemHelpers.SphericalToCartesian(spherePosition);
     }
 
 }
