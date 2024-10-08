@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.TextCore.Text;
 
+[RequireComponent(typeof(Controls))]
 public class NewProtoKiteMovement : MonoBehaviour
 {
     // The new Kite movement should use the 'flight envelope'
@@ -30,26 +31,18 @@ public class NewProtoKiteMovement : MonoBehaviour
     // First steps, constrain something to that quater sphere, and get the and PFK.
     // Make it so it can move along that constrained area.
 
+    protected Controls _controls;
 
     [SerializeField] private float speed = 3;
     [SerializeField] private float radius = 40f;
 
-    private Vector2 leftStickVector;
-    private Vector2 rightStickVector;
-
     private Vector3 spherePosition;
     private Vector3 origin = new Vector3 (0, 0, 0);
 
-    // These methods are assigned from the Input System - they are 'actions' that get paseed through the Player Input script on the game object.
-    public void OnLeftAnchor(InputValue lsv)
+    private void Awake()
     {
-        leftStickVector = lsv.Get<Vector2>();
+        _controls = GetComponent<Controls>();
     }
-    public void OnRightAnchor(InputValue rsv)
-    {
-        rightStickVector = rsv.Get<Vector2>();
-    }
-
 
     private void Start()
     {
@@ -62,14 +55,12 @@ public class NewProtoKiteMovement : MonoBehaviour
         // USE A PARENT AND CHILD YOU FOOL XD
 
         transform.LookAt(origin);
-        spherePosition.y += leftStickVector.x * speed * Time.deltaTime;
-        spherePosition.z += leftStickVector.y * speed * Time.deltaTime;
+        spherePosition.y += _controls.LeftStickValue.x * speed * Time.deltaTime;
+        spherePosition.z += _controls.LeftStickValue.y * speed * Time.deltaTime;
 
         //spherePosition += Vector3.forward * Time.deltaTime;
 
-        this.transform.Rotate((Vector3.forward), 200 * Time.deltaTime, Space.Self);
-
-        //this.transform.position = SphericalCoordinateSystemHelpers.SphericalToCartesian(spherePosition);
+        this.transform.position = SphericalCoordinateSystemHelpers.SphericalToCartesian(spherePosition);
     }
 
 }

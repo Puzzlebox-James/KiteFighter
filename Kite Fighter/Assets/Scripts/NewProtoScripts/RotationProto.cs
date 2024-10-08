@@ -1,19 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class RotationProto : MonoBehaviour
+[RequireComponent(typeof(Controls))]
+public class RotationProto : NewProtoKiteMovement
 {
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        //this.transform.Rotate((Vector3.forward), 200 * Time.deltaTime, Space.Self);
+        Debug.Log(_controls.LeftStickValue.y);
+        this.transform.Rotate((Vector3.forward), 200 * Time.deltaTime , Space.Self);
     }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(Vector3.forward, transform.position);
-    }
-
 }
